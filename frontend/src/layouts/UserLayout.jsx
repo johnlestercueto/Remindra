@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom"; // ✅ add Outlet
 import LogoutModal from "../modals/LogoutModal";
-import JoinModal from "../modals/JoinModal"; // 🔹 Import Join Modal
+import JoinModal from "../modals/JoinModal";
 
-const Main = () => {
+const UserLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [showJoinModal, setShowJoinModal] = useState(false); // 🔹 For Join modal
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
-  // 🔹 Logout Handlers
   const handleLogoutClick = () => setShowLogoutModal(true);
   const confirmLogout = () => {
     setShowLogoutModal(false);
@@ -21,7 +19,6 @@ const Main = () => {
   };
   const cancelLogout = () => setShowLogoutModal(false);
 
-  // 🔹 Join Handlers
   const handleJoinClick = () => setShowJoinModal(true);
   const confirmJoin = () => {
     setShowJoinModal(false);
@@ -59,20 +56,34 @@ const Main = () => {
           </button>
         </div>
         <ul className="p-4 space-y-3">
-          <li className="p-2 rounded hover:bg-gray-100 cursor-pointer">Home</li>
+          <li
+            className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate("/user")}
+          >
+            Home
+          </li>
           <li
             className="p-2 rounded hover:bg-gray-100 cursor-pointer"
             onClick={handleJoinClick}
           >
             Join
           </li>
-          <li className="p-2 rounded hover:bg-gray-100 cursor-pointer">
+          <li
+            className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate("/user/create-reminders")}
+          >
             Create Reminders
           </li>
-          <li className="p-2 rounded hover:bg-gray-100 cursor-pointer">
+          <li
+            className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate("/user/profile")}
+          >
             Profile
           </li>
-          <li className="p-2 rounded hover:bg-gray-100 cursor-pointer">
+          <li
+            className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate("/user/settings")}
+          >
             Settings
           </li>
           <li
@@ -84,32 +95,15 @@ const Main = () => {
         </ul>
       </div>
 
-      {/* Body */}
+      {/* 🔹 Nested Routes will render here */}
       <main className="flex-grow p-6">
-        <div className="bg-white rounded-2xl shadow-md p-4">
-          <ul className="space-y-2">
-            <li className="p-3 bg-gray-100 rounded-lg hover:bg-gray-200">
-              Organization A
-            </li>
-            <li className="p-3 bg-gray-100 rounded-lg hover:bg-gray-200">
-              Organization B
-            </li>
-            <li className="p-3 bg-gray-100 rounded-lg hover:bg-gray-200">
-              Organization C
-            </li>
-            <li className="p-3 bg-gray-100 rounded-lg hover:bg-gray-200">
-              Organization D
-            </li>
-          </ul>
-        </div>
+        <Outlet /> {/* ✅ ito ang maglalabas ng OrganizationList */}
       </main>
 
-      {/* Logout Modal */}
+      {/* Modals */}
       {showLogoutModal && (
         <LogoutModal onConfirm={confirmLogout} onCancel={cancelLogout} />
       )}
-
-      {/* Join Modal */}
       {showJoinModal && (
         <JoinModal onConfirm={confirmJoin} onCancel={cancelJoin} />
       )}
@@ -117,4 +111,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default UserLayout;
