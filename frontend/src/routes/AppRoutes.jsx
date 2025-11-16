@@ -8,9 +8,8 @@ import Signup from "../pages/SignUp";
 import Main from "../pages/Main";
 import OrganizationList from "../components/OrganizationList";
 import UserLayout from "../layouts/UserLayout";
-import Profile from "../pages/Profile";
-import Settings from "../pages/Settings";
 import CreateReminders from "../pages/CreateReminders";
+import OrganizationTodo from "../pages/OrganizationTodo";
 
 export default function AppRoutes() {
   return (
@@ -27,9 +26,13 @@ export default function AppRoutes() {
         {/* 👤 User routes (with UserLayout) */}
         <Route element={<UserLayout />}>
           <Route path="/user" element={<OrganizationList />} />
-          <Route path="/user/profile" element={<Profile />} />
-          <Route path="/user/settings" element={<Settings />} />
+
           <Route path="/user/create-reminders" element={<CreateReminders />} />
+
+          <Route
+            path="/user/organization/:name"
+            element={<OrganizationTodo />}
+          />
         </Route>
       </Routes>
     </Router>
